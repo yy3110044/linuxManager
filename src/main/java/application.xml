@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>spring boot参数配置</comment>
+
+	<!-- web配置，若在web容器里运行，此参数无效 -->
+	<entry key="server.port">8080</entry>
+	<entry key="server.servlet.context-path">/linuxManager</entry>
+	
+	<!-- 上传文件大小限制设置 -->
+	<entry key="spring.servlet.multipart.max-file-size">1024MB</entry>
+	<entry key="spring.servlet.multipart.max-request-size">1024MB</entry>
+	
+	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
+	<entry key="logging.file">/tmp/testlogs/linuxManager/linuxManager.log</entry>
+	
+	<!-- jackson时间格式设置 -->
+	<entry key="spring.jackson.date-format">yyyy-MM-dd HH:mm:ss</entry>
+	<entry key="spring.jackson.time-zone">GMT+8</entry>
+
+	<!-- 网站相关配置 -->
+	<entry key="web.config.upload-path">/upload</entry><!-- 上传文件目录 -->
+	<entry key="web.config.admin-user">admin</entry><!-- 管理员用户 -->
+	<entry key="web.config.admin-password">123456</entry><!-- 管理员密码 -->
+</properties>
