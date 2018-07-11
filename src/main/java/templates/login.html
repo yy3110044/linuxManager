@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-<title>管理员登陆${msg}</title>
+<title>管理员登陆</title>
 <script src="/js/jquery.js"></script>
 <script src="/js/common.js"></script>
 <script>
@@ -16,13 +16,17 @@ var login = function(){
 			"adminPassWord" : adminPassWord
 		},
 		success : function(data) {
-			alert(data.code);
+			$("#showMsg").html(data.msg);
+			if(data.code == 100) {
+				window.location.href = "/fileAdmin/fileList.html";
+			}
 		}
 	});
 };
 </script>
 </head>
 <body>
+<div th:text="${msg}" id="showMsg" style="color:red;font-weight:bold;"></div>
 <input type="text" id="adminUserName" placeholder="输入用户名"/><br/>
 <input type="password" id="adminPassWord" placeholder="输入密码"/><br/>
 <input type="button" value="登陆" onclick="login()"/>

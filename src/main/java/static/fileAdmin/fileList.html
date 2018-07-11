@@ -10,9 +10,8 @@ $(document).ready(function(){
 	loadData({
 		url : "/administration/fileList",
 		success : function(data){
-			alert(data.msg);
 		},
-		redirectUrl : "/login.html?msg=" + encodeURI("请先登陆")
+		redirectUrl : "/login?msg=" + encodeURI("请先登陆")
 	});
 });
 </script>

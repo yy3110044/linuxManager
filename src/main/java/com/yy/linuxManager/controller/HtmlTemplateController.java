@@ -13,11 +13,10 @@ import com.yy.linuxManager.util.Util;
 @Controller
 public class HtmlTemplateController {
 
-	@RequestMapping("/login.html")
+	@RequestMapping("/login")
 	public String login(HttpServletRequest req) {
 		String msg = req.getParameter("msg");
-		System.out.println(msg);
 		req.setAttribute("msg", Util.urlDecode(msg));
-		return "/login.html";
+		return "login";
 	}
 }

@@ -7,11 +7,13 @@
 	<entry key="server.port">8888</entry>
 	<entry key="server.servlet.context-path">/</entry>
 	<entry key="server.session.timeout">3600</entry><!-- session过期时间：秒 -->
-	
+
+	<entry key="spring.thymeleaf.cache">false</entry><!-- 关闭thymeleaf缓存 -->
+
 	<!-- 上传文件大小限制设置 -->
 	<entry key="spring.servlet.multipart.max-file-size">1024MB</entry>
 	<entry key="spring.servlet.multipart.max-request-size">1024MB</entry>
-	
+
 	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
 	<entry key="logging.file">/tmp/testlogs/linuxManager/linuxManager.log</entry>
 	
