@@ -4,8 +4,9 @@
 	<comment>spring boot参数配置</comment>
 
 	<!-- web配置，若在web容器里运行，此参数无效 -->
-	<entry key="server.port">8080</entry>
-	<entry key="server.servlet.context-path">/linuxManager</entry>
+	<entry key="server.port">8888</entry>
+	<entry key="server.servlet.context-path">/</entry>
+	<entry key="server.session.timeout">3600</entry><!-- session过期时间：秒 -->
 	
 	<!-- 上传文件大小限制设置 -->
 	<entry key="spring.servlet.multipart.max-file-size">1024MB</entry>
@@ -20,6 +21,6 @@
 
 	<!-- 网站相关配置 -->
 	<entry key="web.config.upload-path">/upload</entry><!-- 上传文件目录 -->
-	<entry key="web.config.admin-user">admin</entry><!-- 管理员用户 -->
-	<entry key="web.config.admin-password">123456</entry><!-- 管理员密码 -->
+	<entry key="web.config.admin-user-name">admin</entry><!-- 管理员用户 -->
+	<entry key="web.config.admin-pass-word">123456</entry><!-- 管理员密码 -->
 </properties>

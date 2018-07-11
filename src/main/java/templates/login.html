@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+<title>管理员登陆${msg}</title>
+<script src="/js/jquery.js"></script>
+<script src="/js/common.js"></script>
+<script>
+var login = function(){
+	var adminUserName = $.trim($("#adminUserName").val());
+	var adminPassWord = $("#adminPassWord").val();
+	loadData({
+		url : "/login",
+		data : {
+			"adminUserName" : adminUserName,
+			"adminPassWord" : adminPassWord
+		},
+		success : function(data) {
+			alert(data.code);
+		}
+	});
+};
+</script>
+</head>
+<body>
+<input type="text" id="adminUserName" placeholder="输入用户名"/><br/>
+<input type="password" id="adminPassWord" placeholder="输入密码"/><br/>
+<input type="button" value="登陆" onclick="login()"/>
+</body>
+</html>

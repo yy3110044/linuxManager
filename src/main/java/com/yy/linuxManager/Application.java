@@ -2,6 +2,10 @@ package com.yy.linuxManager;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import com.yy.linuxManager.interceptor.CheckAdminUserLoginInterceptor;
 
 /**
  * 启动类配置
@@ -11,8 +15,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *
  */
 @SpringBootApplication//相当于@Configuration、@ComponentScan、@EnableAutoConfiguration
-public class Application {
+public class Application extends SpringBootServletInitializer implements WebMvcConfigurer {
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
+	}
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new CheckAdminUserLoginInterceptor()).addPathPatterns("/administration/**");
 	}
 }
