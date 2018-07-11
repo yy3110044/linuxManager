@@ -1,4 +1,4 @@
-package com.yy.linuxManager.controller.template;
+package com.yy.linuxManager.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
