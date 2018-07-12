@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>文件列表</title>
+<style type="text/css">
+table,table tr th, table tr td { border:1px solid grey;}
+table {border-collapse: collapse;}
+</style>
+<script src="/js/jquery.js"></script>
+<script src="/js/jquery.ui.widget.js"></script>
+<script src="/js/jquery.fileupload.js"></script>
+<script src="/js/jquery.iframe-transport.js"></script>
+<script src="/js/common.js"></script>
+<script>
+var currentPath = null;//当前目录
+
+$(document).ready(function(){
+	getFileList();
+	$("#fileUploadInput").fileupload({
+		url : "/administration/fileUpload",
+		type : "POST",
+        dataType : "json",
+        progressall : function(e, data){
+        	var rate = parseInt(data.loaded / data.total * 100, 10);
+            $("#progress").html(rate + "%");
+        },
+        done : function(e, data){
+            alert(data.result.msg);
+            if(data.result.code == 100) {
+            	getFileList(currentPath);
+            	$("#progress").html('<span style="color:green;">上传成功</span>');
+            } else {
+            	$("#progress").html('<span style="color:red;">上传失败</span>');
+            }
+        }
+	});
+});
+var del = function(path) {
+    loadData({
+    	url : "/administration/fileDelete",
+    	data : {
+    		"path" : path
+    	},
+    	success : function(data) {
+    		alert(data.msg);
+    		if(data.code == 100) {
+    			getFileList(currentPath);
+    		}
+    	}
+    });
+};
+var getFileList = function(path) {
+	loadData({
+		url : "/administration/fileList",
+		data : {
+			"path" : path
+		},
+        success : function(data){
+        	currentPath = data.result.currentPath;
+        	if(data.code == 100) {
+        		var currentFolderStr = '';
+        		var currentFolderList = data.result.currentFolderList;
+        		for(var i=currentFolderList.length-1; i>=0; i--) {
+        			var obj = currentFolderList[i];
+        			currentFolderStr += '<a href="javascript:;" onclick="getFileList(\'' + obj.filePath + '\')">' + obj.fileName + '</a>&nbsp;&gt;&nbsp;';
+        		}
+        		$("#currentFolder").html(currentFolderStr);
+        		
+	            var str = "";
+	            var list = data.result.fileInfoList;
+	            for(var i=0; i<list.length; i++) {
+	                var obj = list[i];
+	                str += '<tr class="contentTr">';
+	                str += '<td>';
+	                if(obj.directory) {
+	                    str += '<img src="/images/folder.png"/>&nbsp;';
+	                    str += '<a href="javascript:;" onclick="getFileList(\'' + obj.filePath + '\')">' + obj.fileName + '</a>';
+	                } else {
+	                    str += '<img src="/images/file.png"/>&nbsp;';
+	                    str += obj.fileName;
+	                }
+	                str += '</td>';
+	                str += '<td>' + obj.read + '</td>';
+	                str += '<td>' + obj.write + '</td>';
+	                str += '<td>' + obj.execute + '</td>';
+	                str += '<td>' + obj.hidden + '</td>';
+	                str += '<td><a href="javascript:;" onclick="del(\'' + obj.filePath + '\')">删除</a></td>';
+	                
+	                if(obj.directory) {
+	                	str += '<td></td>';
+	                } else {
+	                	if(obj.read) {
+	                		str += '<td><a href="/administration/fileDownload?path=' + obj.filePath + '">下载</a></td>';
+	                	} else {
+	                		str += '<td></td>';
+	                	}
+	                }
+	                str += '</tr>';
+	            }
+	            $("tr.contentTr").remove();
+	            $("table").append(str);
+        	} else {
+        		alert(data.msg);
+        	}
+        },
+        redirectUrl : "/login?msg=" + encodeURI("请先登陆")
+	});
+};
+</script>
+</head>
+<body>
+<div class="head" th:replace="head"></div>
+<div style="margin-top:8px;" id="currentFolder"></div>
+<div style="margin-top:8px;">上传文件到此目录：<input type="file" name="file" id="fileUploadInput"><span id="progress" style="color:green;"></span></div>
+<div style="margin-top:8px;">
+    <table>
+        <tr>
+            <th>文件名</th>
+            <th>读权限</th>
+            <th>写权限</th>
+            <th>执行权限</th>
+            <th>隐藏文件</th>
+            <th>删除</th>
+            <th>下载</th>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

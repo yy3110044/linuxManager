@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.yy.linuxManager.interceptor.CheckAdminUserLoginInterceptor;
+import com.yy.linuxManager.interceptor.FileDownloadInterceptor;
 
 /**
  * 启动类配置
@@ -22,5 +23,6 @@ public class Application implements WebMvcConfigurer {
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(new CheckAdminUserLoginInterceptor()).addPathPatterns("/administration/**");
+		registry.addInterceptor(new FileDownloadInterceptor()).addPathPatterns("/tmp/**");
 	}
 }

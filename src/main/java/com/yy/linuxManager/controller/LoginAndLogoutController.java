@@ -35,6 +35,7 @@ public class LoginAndLogoutController {
 	@RequestMapping(value="/logout")
 	public ResponseObject logout(HttpSession session) {
 		session.removeAttribute("adminUserName");
+		session.invalidate();
 		return new ResponseObject(100, "退出成功");
 	}
 }

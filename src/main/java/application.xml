@@ -8,7 +8,7 @@
 	<entry key="server.servlet.context-path">/</entry>
 	<entry key="server.session.timeout">3600</entry><!-- session过期时间：秒 -->
 
-	<entry key="spring.thymeleaf.cache">false</entry><!-- 关闭thymeleaf缓存 -->
+	<entry key="spring.thymeleaf.cache">false</entry><!-- 关闭thymeleaf缓存，开发时关闭 -->
 
 	<!-- 上传文件大小限制设置 -->
 	<entry key="spring.servlet.multipart.max-file-size">1024MB</entry>

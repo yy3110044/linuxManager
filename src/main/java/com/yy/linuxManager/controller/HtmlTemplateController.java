@@ -19,4 +19,22 @@ public class HtmlTemplateController {
 		req.setAttribute("msg", Util.urlDecode(msg));
 		return "login";
 	}
+	
+	/**
+	 * 头部共用部分
+	 * @return
+	 */
+	@RequestMapping("/head")
+	public String head() {
+		return "head";
+	}
+	
+	/**
+	 * 系统文件列表
+	 * @return
+	 */
+	@RequestMapping("/fileList")
+	public String fileList() {
+		return "fileList";
+	}
 }
