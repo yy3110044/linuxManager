@@ -167,6 +167,7 @@ public class FileAdminController {
 		
 		File file = new File(path);
 		if(!file.exists()) { //文件不存在
+			session.setAttribute("currentPath", file.getParent());
 			return new ResponseObject(101, "文件不存在");
 		} else { //文件存在
 			if(file.isDirectory()) { //此文件是个目录
