@@ -37,18 +37,20 @@ $(document).ready(function(){
 	});
 });
 var del = function(path) {
-    loadData({
-    	url : "/administration/fileDelete",
-    	data : {
-    		"path" : path
-    	},
-    	success : function(data) {
-    		alert(data.msg);
-    		if(data.code == 100) {
-    			getFileList(currentPath);
-    		}
-    	}
-    });
+	if(confirm("确定删除？")) {
+	    loadData({
+	    	url : "/administration/fileDelete",
+	    	data : {
+	    		"path" : path
+	    	},
+	    	success : function(data) {
+	    		alert(data.msg);
+	    		if(data.code == 100) {
+	    			getFileList(currentPath);
+	    		}
+	    	}
+	    });
+	}
 };
 var getFileList = function(path) {
 	loadData({
