@@ -13,6 +13,11 @@ import com.yy.linuxManager.util.Util;
 @Controller
 public class HtmlTemplateController {
 
+	/**
+	 * 登陆
+	 * @param req
+	 * @return
+	 */
 	@RequestMapping("/login")
 	public String login(HttpServletRequest req) {
 		String msg = req.getParameter("msg");
@@ -36,5 +41,14 @@ public class HtmlTemplateController {
 	@RequestMapping("/fileList")
 	public String fileList() {
 		return "fileList";
+	}
+	
+	/**
+	 * 系统信息
+	 * @return
+	 */
+	@RequestMapping("/sysInfo")
+	public String sysInfo() {
+		return "sysInfo";
 	}
 }

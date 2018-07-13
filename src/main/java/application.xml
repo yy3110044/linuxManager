@@ -4,7 +4,7 @@
 	<comment>spring boot参数配置</comment>
 
 	<!-- web配置，若在web容器里运行，此参数无效 -->
-	<entry key="server.port">8888</entry>
+	<entry key="server.port">8887</entry>
 	<entry key="server.servlet.context-path">/</entry>
 	<entry key="server.session.timeout">3600</entry><!-- session过期时间：秒 -->
 
@@ -25,4 +25,26 @@
 	<entry key="web.config.upload-path">/upload</entry><!-- 上传文件目录 -->
 	<entry key="web.config.admin-user-name">admin</entry><!-- 管理员用户 -->
 	<entry key="web.config.admin-pass-word">123456</entry><!-- 管理员密码 -->
+
+
+
+	<entry key="linuxManagerInstall">
+	<![CDATA[
+	---------------------------java安装--------------------------------
+
+
+	---------------------------linux Manager安装--------------------------------
+	1、创建linuxManager安装目录
+	madir
+	
+	2、下载linuxManager
+	wget http://www.yy.com/linuxManager.tar.gz
+	
+	3、解压linuxManager
+	tar -zxvf ./linuxManager.tar.gz
+	这时就可以用java -jar linuxManager.tar.gz来运行了，注意开端口
+	
+	4、将linuxManager安装为linux服务
+	]]>
+	</entry>
 </properties>

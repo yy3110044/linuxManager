@@ -58,7 +58,58 @@ public class FileAdminController {
 				return new ResponseObject(102, "上传失败，上传文件为空");
 			}
 		} else {
-			return new ResponseObject(101, "上传失败，没有上传目录");
+			return new ResponseObject(101, "上传失败，当前目录不存在");
+		}
+	}
+	
+	/**
+	 * 创建一个目录
+	 * @return
+	 */
+	@RequestMapping("/createFolder")
+	public ResponseObject createFolder(@RequestParam String folderName, HttpSession session) {
+		String currentPath = (String)session.getAttribute("currentPath");
+		if(!Util.empty(currentPath)) {
+			if(!Util.empty(folderName)) {
+				File file = new File(currentPath, folderName);
+				try {
+					FileUtils.forceMkdir(file);
+					return new ResponseObject(100, "创建目录成功");
+				} catch (IOException e) {
+					return new ResponseObject(103, "创建目录失败，请检查是否有权限");
+				}
+			} else {
+				return new ResponseObject(102, "目录名不能为空");
+			}
+		} else {
+			return new ResponseObject(101, "创建失败，当前目录不存在");
+		}
+	}
+	
+	/**
+	 * 修改文件以及目录的名称
+	 * @param newName
+	 * @param session
+	 * @return
+	 */
+	@RequestMapping("/reName")
+	public ResponseObject reName(@RequestParam String oldName, @RequestParam String newName, HttpSession session) {
+		String currentPath = (String)session.getAttribute("currentPath");
+		if(!Util.empty(currentPath)) {
+			if(!Util.empty(oldName, newName)) {
+				File oldFile = new File(currentPath, oldName);
+				File newFile = new File(currentPath, newName);
+				try {
+					oldFile.renameTo(newFile);
+					return new ResponseObject(100, "重命名成功");
+				} catch (Exception e) {
+					return new ResponseObject(103, "重命名失败");
+				}
+			} else {
+				return new ResponseObject(102, "旧名称以及新名称不能为空");
+			}
+		} else {
+			return new ResponseObject(101, "重命名失败，当前目录不存在");
 		}
 	}
 	
@@ -96,6 +147,12 @@ public class FileAdminController {
 		}
 	}
 
+	/**
+	 * 文件列表
+	 * @param path
+	 * @param session
+	 * @return
+	 */
 	@RequestMapping("/fileList")
 	public ResponseObject fileList(String path, HttpSession session) {
 		if(Util.empty(path)) { //没有path
@@ -126,6 +183,8 @@ public class FileAdminController {
 						fi.setExecute(f.canExecute());
 						fi.setHidden(f.isHidden());
 						fi.setDirectory(f.isDirectory());
+						fi.setLength(f.length());
+						fi.setLengthStr(FileUtils.byteCountToDisplaySize(fi.getLength()));
 						fileInfoList.add(fi);
 					}
 					Collections.sort(fileInfoList); //给list排下序

@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <title>文件列表</title>
 <style type="text/css">
-table,table tr th, table tr td { border:1px solid grey;}
+table,table tr th, table tr td { border:1px solid grey;padding:3px;}
 table {border-collapse: collapse;}
 </style>
 <script src="/js/jquery.js"></script>
@@ -37,7 +37,7 @@ $(document).ready(function(){
 	});
 });
 var del = function(path) {
-	if(confirm("确定删除？")) {
+	if(confirm("确定删除？删除后不可恢复，请谨慎操作。")) {
 	    loadData({
 	    	url : "/administration/fileDelete",
 	    	data : {
@@ -50,6 +50,26 @@ var del = function(path) {
 	    		}
 	    	}
 	    });
+	}
+};
+var modifyName = function(oldName){
+	var newName = $.trim(prompt("请输入新名称", oldName));
+	if(!empty(newName)) {
+		loadData({
+			url : "/administration/reName",
+			data : {
+				"oldName" : oldName,
+				"newName" : newName
+			},
+			success : function(data){
+				alert(data.msg);
+				if(data.code == 100) {
+                    getFileList(currentPath);
+                }
+			}
+		});
+	} else {
+		alert("新名称不能为空");
 	}
 };
 var getFileList = function(path) {
@@ -83,11 +103,19 @@ var getFileList = function(path) {
 	                    str += obj.fileName;
 	                }
 	                str += '</td>';
+	                str += '<td>' + obj.lengthStr + '</td>';
 	                str += '<td>' + obj.read + '</td>';
 	                str += '<td>' + obj.write + '</td>';
 	                str += '<td>' + obj.execute + '</td>';
 	                str += '<td>' + obj.hidden + '</td>';
-	                str += '<td><a href="javascript:;" onclick="del(\'' + obj.filePath + '\')">删除</a></td>';
+	                
+	                if(obj.write) {
+	                	str += '<td><a href="javascript:;" onclick="modifyName(\'' + obj.fileName + '\')">改名</a></td>';
+		                str += '<td><a href="javascript:;" onclick="del(\'' + obj.filePath + '\')">删除</a></td>';
+	                } else {
+	                	str += '<td></td>';
+	                	str += '<td></td>';
+	                }
 	                
 	                if(obj.directory) {
 	                	str += '<td></td>';
@@ -109,20 +137,44 @@ var getFileList = function(path) {
         redirectUrl : "/login?msg=" + encodeURI("请先登陆")
 	});
 };
+var createFolder = function(){
+	var folderName = $.trim(prompt("请输入一个目录名"));
+	if(!empty(folderName)) {
+		loadData({
+			url : "/administration/createFolder",
+			data : {
+				"folderName" : folderName
+			},
+			success : function(data) {
+				alert(data.msg);
+				if(data.code == 100) {
+					getFileList(currentPath);
+				}
+			}
+		});
+	} else {
+		alert("目录名不能为空");
+	}
+};
 </script>
 </head>
 <body>
 <div class="head" th:replace="head"></div>
 <div style="margin-top:8px;" id="currentFolder"></div>
-<div style="margin-top:8px;">上传文件到此目录：<input type="file" name="file" id="fileUploadInput"><span id="progress" style="color:green;"></span></div>
+<div style="margin-top:8px;">
+    <span>上传文件：<input type="file" name="file" id="fileUploadInput"><span id="progress" style="color:green;"></span></span>
+    <span><input type="button" value="创建目录" onclick="createFolder()"></span>
+</div>
 <div style="margin-top:8px;">
     <table>
         <tr>
             <th>文件名</th>
+            <th>大小</th>
             <th>读权限</th>
             <th>写权限</th>
             <th>执行权限</th>
             <th>隐藏文件</th>
+            <th>改名</th>
             <th>删除</th>
             <th>下载</th>
         </tr>

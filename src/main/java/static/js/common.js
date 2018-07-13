@@ -1,5 +1,5 @@
 var empty = function(str) {
-	return str == null || "" == str;
+	return str == null || "" == $.trim(str);
 };
 
 /**

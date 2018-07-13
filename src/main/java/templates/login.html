@@ -18,7 +18,7 @@ var login = function(){
 		success : function(data) {
 			$("#showMsg").html(data.msg);
 			if(data.code == 100) {
-				window.location.href = "/fileList";
+				window.location.href = "/sysInfo";
 			}
 		}
 	});

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>系统信息</title>
+<script src="/js/jquery.js"></script>
+<script src="/js/common.js"></script>
+<script>
+var getMemInfo = function(){
+	$.ajax({
+		type : "POST",
+		url : "/administration/memInfo",
+		cache : false,
+		dataType : "json",
+		success : function(data, textStatus) {
+			if(data.code == 100) {
+                $("#memInfo .total").html(byteCountToDisplaySize(data.result.mem.total));
+                $("#memInfo .used").html(byteCountToDisplaySize(data.result.mem.used));
+                $("#memInfo .free").html(byteCountToDisplaySize(data.result.mem.free));
+                $("#memInfo .shared").html(byteCountToDisplaySize(data.result.mem.shared));
+                $("#memInfo .buff_cache").html(byteCountToDisplaySize(data.result.mem.buff_cache));
+                $("#memInfo .available").html(byteCountToDisplaySize(data.result.mem.available));
+                
+                $("#swapInfo .total").html(byteCountToDisplaySize(data.result.swap.total));
+                $("#swapInfo .used").html(byteCountToDisplaySize(data.result.swap.used));
+                $("#swapInfo .free").html(byteCountToDisplaySize(data.result.swap.free));
+            }
+		}
+	});
+}
+var byteCountToDisplaySize = function(size){
+	if(size < 1024) {
+		return size + "bytes";
+	} else if(size >= 1024 && size < 1024 * 1024) {
+		return (size / 1024).toFixed(2) + "KB";
+	} else if(size >= 1024 * 1024 && size < 1024 * 1024 * 1024) {
+		return (size / 1024 / 1024).toFixed(2) + "MB";
+	} else if(size >= 1024 * 1024 * 1024) {
+		return (size / 1024 / 1024 / 1024).toFixed(2) + "GB";
+	} else {
+		return size + "bytes";
+	}
+};
+$(document).ready(function(){
+	getMemInfo();
+    setInterval("getMemInfo()", 1000);
+    loadData({
+    	url : "/administration/jreInfo",
+    	success : function(data){
+    		$("#jreInfo .availableProcessors").html(data.result.availableProcessors);
+    		$("#jreInfo .webContainer").html(data.result.webContainer);
+    		$("#jreInfo .webRootPath").html(data.result.webRootPath);
+    		$("#jreInfo .javaVersion").html(data.result.javaVersion);
+    		$("#jreInfo .javaVendor").html(data.result.javaVendor);
+    		$("#jreInfo .javaHome").html(data.result.javaHome);
+    		$("#jreInfo .ip").html(data.result.ip);
+    	}
+    });
+});
+</script>
+</head>
+
+<body>
+<div class="head" th:replace="head"></div>
+<div style="margin-top:8px;" id="memInfo">
+    <h3>内存</h3>
+    <div><span>总内存：</span><span class="total"></span></div>
+    <div><span>已使用：</span><span class="used"></span></div>
+    <div><span>未使用：</span><span class="free"></span></div>
+    <div><span>共享链接库：</span><span class="shared"></span></div>
+    <div><span>系统缓存：</span><span class="buff_cache"></span></div>
+    <div><span>可申请：</span><span class="available"></span></div>
+</div>
+
+<div style="margin-top:8px;" id="swapInfo">
+    <h3>swap</h3>
+    <div><span>总数：</span><span class="total"></span></div>
+    <div><span>已使用：</span><span class="used"></span></div>
+    <div><span>未使用：</span><span class="free"></span></div>
+</div>
+
+<div style="margin-top:8px;" id="jreInfo">
+    <h3>jre</h3>
+    <div><span>CPU核心数：</span><span class="availableProcessors"></span></div>
+    <div><span>web容器：</span><span class="webContainer"></span></div>
+    <div><span>web目录：</span><span class="webRootPath"></span></div>
+    <div><span>java版本：</span><span class="javaVersion"></span></div>
+    <div><span>java供应商：</span><span class="javaVendor"></span></div>
+    <div><span>java目录：</span><span class="javaHome"></span></div>
+    <div><span>访问ip：</span><span class="ip"></span></div>
+</div>
+</body>
+</html>

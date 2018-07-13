@@ -8,6 +8,8 @@ public class FileInfo implements Comparable<FileInfo> {
 	private boolean execute;
 	private boolean hidden;
 	private boolean directory;
+	private long length;
+	private String lengthStr;
 	public String getFileName() {
 		return fileName;
 	}
@@ -50,7 +52,18 @@ public class FileInfo implements Comparable<FileInfo> {
 	public void setDirectory(boolean directory) {
 		this.directory = directory;
 	}
-
+	public long getLength() {
+		return length;
+	}
+	public void setLength(long length) {
+		this.length = length;
+	}
+	public String getLengthStr() {
+		return lengthStr;
+	}
+	public void setLengthStr(String lengthStr) {
+		this.lengthStr = lengthStr;
+	}
 	@Override
 	public int compareTo(FileInfo o) {
 		if(this.isDirectory()) { //当前对象是个目录
