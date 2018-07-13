@@ -69,6 +69,11 @@ public class SystemInfoController {
 		map.set("javaVendor", System.getProperty("java.vendor")); //java供应商
 		map.set("javaHome", System.getProperty("java.home"));
 		map.set("ip", req.getRemoteAddr()); //访问ip
+		
+		Command comm = Command.execute("whoami");
+		String result = comm.getStrResult();
+		comm.getStrErrorResult();
+		map.set("whoami", result);
 		return new ResponseObject(100, "success", map);
 	}
 }

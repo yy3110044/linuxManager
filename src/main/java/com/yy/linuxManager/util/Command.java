@@ -86,4 +86,11 @@ public class Command {
 			throw new RuntimeException(e);
 		}
 	}
+	
+	/**
+	 * 强制结束进程
+	 */
+	public void destroy() {
+		process.destroyForcibly();
+	}
 }

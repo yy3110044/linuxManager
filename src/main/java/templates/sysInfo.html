@@ -47,6 +47,8 @@ $(document).ready(function(){
     loadData({
     	url : "/administration/jreInfo",
     	success : function(data){
+    		$("#linuxInfo .whoami").html(data.result.whoami);
+    		
     		$("#jreInfo .availableProcessors").html(data.result.availableProcessors);
     		$("#jreInfo .webContainer").html(data.result.webContainer);
     		$("#jreInfo .webRootPath").html(data.result.webRootPath);
@@ -62,6 +64,11 @@ $(document).ready(function(){
 
 <body>
 <div class="head" th:replace="head"></div>
+<div style="margin-top:8px;" id="linuxInfo">
+    <h3>linux</h3>
+    <div><span>当前用户：</span><span class="whoami"></span></div>
+</div>
+
 <div style="margin-top:8px;" id="memInfo">
     <h3>内存</h3>
     <div><span>总内存：</span><span class="total"></span></div>
