@@ -158,7 +158,7 @@ public class FileAdminController {
 		if(Util.empty(path)) { //没有path
 			String currentPath = (String)session.getAttribute("currentPath");
 			if(Util.empty(currentPath)) { //当前path也没空，就进入根目录
-				path = "/";
+				path = FileUtils.getUserDirectoryPath();
 			} else {
 				path = currentPath;
 			}
