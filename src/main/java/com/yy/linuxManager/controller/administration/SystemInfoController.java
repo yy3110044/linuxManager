@@ -87,7 +87,7 @@ public class SystemInfoController {
 	 * @param comm
 	 * @return
 	 */
-	@RequestMapping("/execute")
+	@RequestMapping("/execute")有问题
 	public ResponseObject execute(@RequestParam final String comm) {
 		if(!Util.empty(comm)) {
 			final ResponseObject ro = new ResponseObject();
