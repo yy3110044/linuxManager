@@ -3,16 +3,12 @@ package com.yy.linuxManager.controller.administration;
 import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.yy.linuxManager.util.Command;
 import com.yy.linuxManager.util.MyMap;
 import com.yy.linuxManager.util.ResponseObject;
-import com.yy.linuxManager.util.Util;
 
 /**
  * 系统信息controller
@@ -22,8 +18,6 @@ import com.yy.linuxManager.util.Util;
 @RestController
 @RequestMapping(value="/administration", method=RequestMethod.POST)
 public class SystemInfoController {
-	private static final Logger logger = LogManager.getLogger(SystemInfoController.class);
-	
 	/**
 	 * 返回内存使用情况
 	 * @return
@@ -80,58 +74,5 @@ public class SystemInfoController {
 		comm.getStrErrorResult();
 		map.set("whoami", result);
 		return new ResponseObject(100, "success", map);
-	}
-	
-	/**
-	 * 执行一个服务器命令
-	 * @param comm
-	 * @return
-	 */
-	@RequestMapping("/execute")有问题
-	public ResponseObject execute(@RequestParam final String comm) {
-		if(!Util.empty(comm)) {
-			final ResponseObject ro = new ResponseObject();
-			
-			CommandThread ct = new CommandThread(comm, ro);
-			Thread th = new Thread(ct);
-			th.start();
-			try {
-				th.join(5000); //等待th线程执行完毕，只等5秒
-			} catch (InterruptedException e) {
-				logger.error(e.toString());
-			}
-
-			ct.destroy();
-			if(ro.getCode() == 100) {
-				return ro;
-			} else {
-				return new ResponseObject(102, "执行失败");
-			}
-		} else {
-			return new ResponseObject(101, "执行命令不能为空");
-		}
-	}
-	
-	public static void main(String[] args) {
-		System.out.println(new SystemInfoController().execute("ls"));
-	}
-
-	private class CommandThread implements Runnable {
-		private Command command;
-		private ResponseObject ro;
-		CommandThread(String comm, ResponseObject ro) {
-			this.command = Command.execute(comm);
-			this.ro = ro;
-		}
-		@Override
-		public void run() {
-			ro.setResult(new MyMap().set("result", command.getStrResult()).set("error", command.getStrErrorResult()));
-			ro.setCode(100);
-			ro.setMsg("success");
-		}
-		
-		public void destroy() {
-			if(command != null) command.destroy();
-		}
 	}
 }

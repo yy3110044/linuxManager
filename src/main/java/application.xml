@@ -15,7 +15,7 @@
 	<entry key="spring.servlet.multipart.max-request-size">1024MB</entry>
 
 	<!-- 日志相关配置 TRACE < DEBUG < INFO < WARN < ERROR < FATAL -->
-	<entry key="logging.file">/tmp/testlogs/linuxManager/linuxManager.log</entry>
+	<entry key="logging.file">/tmp/logs/linuxManager/linuxManager.log</entry>
 	
 	<!-- jackson时间格式设置 -->
 	<entry key="spring.jackson.date-format">yyyy-MM-dd HH:mm:ss</entry>
